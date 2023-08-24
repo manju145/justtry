@@ -1,9 +1,10 @@
 const express = require("express");
 const productRouter = express.Router();
 const { ProductModel } = require("../model/doctor");
+const { auth } = require("../middleware/auth");
 
 
-productRouter.post('/appointments', async (req, res) => {
+productRouter.post('/appointments',auth, async (req, res) => {
     const {  name,
         image,
               specialization,
@@ -32,7 +33,7 @@ productRouter.post('/appointments', async (req, res) => {
   });
 
 
-  productRouter.get("/",async (req, res) => {
+  productRouter.get("/",auth,async (req, res) => {
     try {
         const notes = await ProductModel.find()
              res.status(200).send(notes)
@@ -41,7 +42,7 @@ productRouter.post('/appointments', async (req, res) => {
     }
 })
 
-productRouter.patch("/update/:noteID", async(req, res) => {
+productRouter.patch("/update/:noteID",auth, async(req, res) => {
 const {noteID} = req.params
 try {
     await ProductModel.findByIdAndUpdate({_id:noteID},req.body)
@@ -52,7 +53,7 @@ try {
 })
 
 
-productRouter.delete("/delete/:noteID",async (req, res) => {
+productRouter.delete("/delete/:noteID",auth,async (req, res) => {
     const {noteID} = req.params
     try {
         await ProductModel.findByIdAndDelete({_id:noteID})
