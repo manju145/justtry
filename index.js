@@ -9,12 +9,15 @@ require("dotenv").config()
 
 const app = express();
 app.use(cors());
-
+app.get("/", (req, res) => {
+  res.send("Welcome to homepage of Employee Data backend");
+});
 
 app.use(express.json());
+
 app.use("/users",userRouter)
 app.use("/products",productRouter)
-app.use(auth)
+// app.use(auth)
 
 
 
